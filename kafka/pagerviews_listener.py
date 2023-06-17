@@ -1,4 +1,4 @@
-from lib.pageviews import Pageviews, avro_schema, json_schema, generate_message
+from lib.pageviews import avro_schema, json_schema, generate_message
 from dataset import subscribe
 from typing import Any
 from producer import produce_topic_data_to_confluent_kafka

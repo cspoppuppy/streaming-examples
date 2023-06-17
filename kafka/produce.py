@@ -1,5 +1,4 @@
-# A simple example demonstrating use of AvroSerializer.
-# Heavily inspired by the confluent-kafka-python examples.
+# Produce Kafka topic (types: avro, json, transactional) with lib of datasets
 
 import argparse
 from dataset import publish

@@ -1,6 +1,6 @@
 import argparse
 from dataclasses import asdict
-from typing import Callable, Any
+from typing import Callable
 from uuid import uuid4
 from confluent_kafka.schema_registry import SchemaRegistryClient
 from confluent_kafka.schema_registry.avro import AvroSerializer
