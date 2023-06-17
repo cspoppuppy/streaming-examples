@@ -1,4 +1,5 @@
 # Streaming Examples
+*Derived from @danielfordfc [python-playground](https://github.com/danielfordfc/python-playground)*
 
 ## Setup
 ---
@@ -33,9 +34,78 @@ python kafka/produce.py -c transactional -d pageviews -t pageviews-trans
 
 
 ### Spark Structured Streaming
+```bash
+bash ./bin/spark_structured_streaming.sh -o hudi_ss -t pageviews-avro
+```
+
+-o = output dir (required)
+-t = topic name (required)
+-b = base path (optional) - defaults to /tmp/warehouse/spark/{output dir}
+-l = log4j path (optional) - defaults to local log4j2.properties file
+-d = debug bool (optional) - defaults to false - set to true to enable debug logging
+
+Test Schema Evolution
+1. Ingest data with initial schema
+```bash
+# Produce data with initial schema
+python kafka/produce.py -c avro -d pageviews -t pageviews-avro
+# Ingest data
+bash ./bin/spark_structured_streaming.sh -o hudi_ss -t pageviews-avro
+# Check data
+bash ./bin/spark_query.sh -o hudi_ss -t pageviews-avro
+```
+
+2. Ingest data with evolved schema (extra column `test1`)
+```bash
+# Produce data with evolved schema
+python kafka/produce.py -c avro -d pageviews1 -t pageviews-avro
+# Ingest data
+bash ./bin/spark_structured_streaming.sh -o hudi_ss -t pageviews-avro
+# Check data, should see extra column `test1`
+bash ./bin/spark_query.sh -o hudi_ss -t pageviews-avro
+```
+
+3. Ingest data with intial schema (remove column `test1`)
+```bash
+# Produce data with evolved schema
+python kafka/produce.py -c avro -d pageviews -t pageviews-avro
+# Ingest data
+bash ./bin/spark_structured_streaming.sh -o hudi_ss -t pageviews-avro
+# Check data, should still see extra column `test1` with null values
+bash ./bin/spark_query.sh -o hudi_ss -t pageviews-avro
+```
+
+4. Delete hudi table and ingest again from beginning
+```bash
+# Remove hudi table
+rm -rf /tmp/warehouse/spark/hudi_ss/pageviews-avro
+# Ingest data
+bash ./bin/spark_structured_streaming.sh -o hudi_ss -t pageviews-avro
+# Check data, should see the same as step 3
+bash ./bin/spark_query.sh -o hudi_ss -t pageviews-avro
+```
 
 
 ### Spark + Hudi DeltaStreaming
+```bash
+bash ./bin/spark_hudi_deltastreamer.sh -o hudi_dt -t pageviews-avro
+```
+
+-o = output dir (required)
+-t = topic name (required)
+-b = base path (optional) - defaults to /tmp/warehouse/spark/{output dir}
+-l = log4j path (optional) - defaults to local log4j2.properties file
+-d = debug bool (optional) - defaults to false - set to true to enable debug logging
 
 
-### Query Ingested Data
+### Query Ingested Data (Hudi table)
+```bash
+bash ./bin/spark_query.sh -o hudi_ss -t pageviews-avro
+bash ./bin/spark_query.sh -o hudi_dt -t pageviews-avro
+```
+
+-o = output dir (required)
+-t = topic name (required)
+-b = base path (optional) - defaults to /tmp/warehouse/spark/{output dir}
+-l = log4j path (optional) - defaults to local log4j2.properties file
+-d = debug bool (optional) - defaults to false - set to true to enable debug logging

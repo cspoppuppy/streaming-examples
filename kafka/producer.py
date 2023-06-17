@@ -138,7 +138,7 @@ def produce_topic_data_to_confluent_kafka(
 
     if args.classification in ["avro", "json", "transactional"]:
         produce_topic_data(
-            producer=producer, 
+            producer=producer,
             args=args, schema_str=schema_str,
             generate_message=generate_message
         )

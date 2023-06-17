@@ -2,10 +2,15 @@
 
 import argparse
 from dataset import publish
-from pagerviews_listener import set_pageviews_event_handler
+from pagerviews_listener import set_pageviews_event_handler as set_pageview
+from pagerviews1_listener import set_pageviews_event_handler as set_pageview1
+from pagerviews2_listener import set_pageviews_event_handler as set_pageview2
 
 
-set_pageviews_event_handler()
+# Subscript datasets
+set_pageview()
+set_pageview1()
+set_pageview2()
 
 
 def parse_args() -> argparse.Namespace:
