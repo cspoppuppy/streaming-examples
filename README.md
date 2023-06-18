@@ -1,6 +1,12 @@
 # Streaming Examples
 *Derived from @danielfordfc [python-playground](https://github.com/danielfordfc/python-playground)*
 
+Data source: Confluent Kafka \
+Destination: Hudi Table (local) \
+Streaming Options:
+- Hudi Deltastreamer (not able to handle Kafka transactional topic)
+- Spark Structured Streaming + [ABRiS](https://github.com/AbsaOSS/ABRiS/tree/master) (to handle schema evolution)
+
 ## Setup
 ---
 - Install and run Confluent Kafka with Docker using this quick start: https://docs.confluent.io/platform/current/platform-quickstart.html
@@ -25,11 +31,11 @@ python kafka/produce.py -c json -d pageviews -t pageviews-json
 python kafka/produce.py -c transactional -d pageviews -t pageviews-trans
 ```
 
--c = classification (avro (default), json, transactional) [Optioanl]
--d = dataset (e.g. pageviews (default)) [Optional]
--t = topic name (e.g. pageviews (default)) [Optional]
--b = bootstrap server (e.g. localhost:9092 (default)) [Optional]
--s = schema registry (e.g. http://localhost: 8081 (default)) [Optional]
+-c = classification (avro (default), json, transactional) [Optioanl] \
+-d = dataset (e.g. pageviews (default)) [Optional] \
+-t = topic name (e.g. pageviews (default)) [Optional] \
+-b = bootstrap server (e.g. localhost:9092 (default)) [Optional] \
+-s = schema registry (e.g. http://localhost: 8081 (default)) [Optional] \
 -n = number of messages to produce (e.g. 10 (default)) - [Optional]
 
 
@@ -38,10 +44,10 @@ python kafka/produce.py -c transactional -d pageviews -t pageviews-trans
 bash ./bin/spark_structured_streaming.sh -o hudi_ss -t pageviews-avro
 ```
 
--o = output dir (required)
--t = topic name (required)
--b = base path (optional) - defaults to /tmp/warehouse/spark/{output dir}
--l = log4j path (optional) - defaults to local log4j2.properties file
+-o = output dir (required) \
+-t = topic name (required) \
+-b = base path (optional) - defaults to /tmp/warehouse/spark/{output dir} \
+-l = log4j path (optional) - defaults to local log4j2.properties file \
 -d = debug bool (optional) - defaults to false - set to true to enable debug logging
 
 Test Schema Evolution
@@ -91,10 +97,10 @@ bash ./bin/spark_query.sh -o hudi_ss -t pageviews-avro
 bash ./bin/spark_hudi_deltastreamer.sh -o hudi_dt -t pageviews-avro
 ```
 
--o = output dir (required)
--t = topic name (required)
--b = base path (optional) - defaults to /tmp/warehouse/spark/{output dir}
--l = log4j path (optional) - defaults to local log4j2.properties file
+-o = output dir (required) \
+-t = topic name (required) \
+-b = base path (optional) - defaults to /tmp/warehouse/spark/{output dir} \
+-l = log4j path (optional) - defaults to local log4j2.properties file \
 -d = debug bool (optional) - defaults to false - set to true to enable debug logging
 
 
@@ -104,8 +110,8 @@ bash ./bin/spark_query.sh -o hudi_ss -t pageviews-avro
 bash ./bin/spark_query.sh -o hudi_dt -t pageviews-avro
 ```
 
--o = output dir (required)
--t = topic name (required)
--b = base path (optional) - defaults to /tmp/warehouse/spark/{output dir}
--l = log4j path (optional) - defaults to local log4j2.properties file
+-o = output dir (required) \
+-t = topic name (required) \
+-b = base path (optional) - defaults to /tmp/warehouse/spark/{output dir} \
+-l = log4j path (optional) - defaults to local log4j2.properties file \
 -d = debug bool (optional) - defaults to false - set to true to enable debug logging
