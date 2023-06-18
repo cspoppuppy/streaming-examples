@@ -76,9 +76,9 @@ def create_value_serializer(
 
     value_serializer = JSONSerializer if classfication == "json" else AvroSerializer
     return value_serializer(
-        schema_registry_client,
-        schema_str,
-        to_dict
+        schema_registry_client=schema_registry_client,
+        schema_str=schema_str,
+        to_dict=to_dict
     )
 
 
