@@ -34,7 +34,7 @@ def avro_schema():
                 },
                 {
                 "name": "test1",
-                "type": "int",
+                "type": "long",
                 "default": 0
                 }
             ]
@@ -52,7 +52,7 @@ def json_schema():
             "properties": {
                 "viewtime": {
                 "description": "viewtime",
-                "type": "number"
+                "type": "string"
                 },
                 "userid": {
                 "description": "userid",
