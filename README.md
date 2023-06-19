@@ -50,8 +50,8 @@ bash ./bin/spark_structured_streaming.sh -o hudi_ss -t pageviews-avro
 -l = log4j path (optional) - defaults to local log4j2.properties file \
 -d = debug bool (optional) - defaults to false - set to true to enable debug logging
 
-Test Schema Evolution
-1. Ingest data with initial schema
+#### Test Schema Evolution
+1. Ingest data with initial schema (skip this step if already ingested an initial schema from above step)
 ```bash
 # Produce data with initial schema
 python kafka/produce.py -c avro -d pageviews -t pageviews-avro
@@ -61,7 +61,7 @@ bash ./bin/spark_structured_streaming.sh -o hudi_ss -t pageviews-avro
 bash ./bin/spark_query.sh -o hudi_ss -t pageviews-avro
 ```
 
-2. Ingest data with evolved schema (extra column `test1`)
+2. Ingest data with evolved schema (extra `int` column `test1`)
 ```bash
 # Produce data with evolved schema
 python kafka/produce.py -c avro -d pageviews1 -t pageviews-avro
@@ -71,13 +71,13 @@ bash ./bin/spark_structured_streaming.sh -o hudi_ss -t pageviews-avro
 bash ./bin/spark_query.sh -o hudi_ss -t pageviews-avro
 ```
 
-3. Ingest data with intial schema (remove column `test1`)
+3. Change column `test1` to an long type
 ```bash
 # Produce data with evolved schema
-python kafka/produce.py -c avro -d pageviews -t pageviews-avro
+python kafka/produce.py -c avro -d pageviews_int2long -t pageviews-avro
 # Ingest data
 bash ./bin/spark_structured_streaming.sh -o hudi_ss -t pageviews-avro
-# Check data, should still see extra column `test1` with null values
+# Check data, should see the changed type of column `test1`
 bash ./bin/spark_query.sh -o hudi_ss -t pageviews-avro
 ```
 

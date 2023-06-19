@@ -17,6 +17,9 @@ def main(base_dir, topic, output):
     raw_df = spark.read.format("hudi").load(base_path)
     raw_df.createOrReplaceTempView(table_name)
     spark.sql(f"select * from {table_name} where userid = 'User_8'").show(truncate=False)
+    print(f"Total number of records: {raw_df.count()}")
+    print(f"Schema of {table_name}")
+    raw_df.printSchema()
 
 
 if __name__ == "__main__":
