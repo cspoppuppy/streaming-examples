@@ -103,6 +103,7 @@ bash ./bin/spark_hudi_deltastreamer.sh -o hudi_dt -t pageviews-avro
 -l = log4j path (optional) - defaults to local log4j2.properties file \
 -d = debug bool (optional) - defaults to false - set to true to enable debug logging
 
+*If not using pageviews topic, will require to amend the key fields in `hoodie-conf.properties` file*
 
 ### Query Ingested Data (Hudi table)
 ```bash
